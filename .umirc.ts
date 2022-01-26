@@ -1,4 +1,5 @@
 import { defineConfig } from 'dumi';
+import { resolve } from 'path';
 
 const repo = 'dumi-template';
 
@@ -20,6 +21,24 @@ export default defineConfig({
       title: 'GitHub',
       path: 'https://github.com/umijs/dumi-template',
     },
+  ],
+  chainWebpack: memo => {
+    memo.resolve.alias.set(
+      'react-native',
+      resolve('./node_modules/react-native-web'),
+    );
+    return memo;
+  },
+  extraBabelPlugins: [
+    [
+      'module-resolver',
+      {
+        root: ['./'],
+        alias: {
+          'react-native$': resolve('./node_modules/react-native-web'),
+        },
+      },
+    ],
   ],
   // more config: https://d.umijs.org/config
 });
